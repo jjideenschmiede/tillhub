@@ -26,3 +26,16 @@ if err != nil {
 // Print token
 fmt.Println(data.token)
 ```
+
+### Read all products
+
+```go
+// Read all products
+products, err := tillhub.ReadProducts(data.User.Id, "Bearer "+data.Token)
+if err != nil {
+    fmt.Println(err)
+}
+
+// Print products
+fmt.Println(products)
+```
