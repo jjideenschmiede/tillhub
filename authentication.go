@@ -17,41 +17,41 @@ import (
 	"net/http"
 )
 
-// AuthBody is to send the login data to tillhub
-type AuthBody struct {
+// AuthBasicBody is to send the login data to tillhub
+type AuthBasicBody struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
 
-// AuthReturn is to decode json return from api
-type AuthReturn struct {
-	Status        int          `json:"status"`
-	Msg           string       `json:"msg"`
-	Request       AuthRequest  `json:"request"`
-	User          AuthUser     `json:"user"`
-	ValidPassword bool         `json:"valid_password"`
-	Token         string       `json:"token"`
-	TokenType     string       `json:"token_type"`
-	ExpiresAt     string       `json:"expires_at"`
-	Features      AuthFeatures `json:"features"`
+// AuthBasicReturn is to decode json return from api
+type AuthBasicReturn struct {
+	Status        int               `json:"status"`
+	Msg           string            `json:"msg"`
+	Request       AuthBasicRequest  `json:"request"`
+	User          AuthBasicUser     `json:"user"`
+	ValidPassword bool              `json:"valid_password"`
+	Token         string            `json:"token"`
+	TokenType     string            `json:"token_type"`
+	ExpiresAt     string            `json:"expires_at"`
+	Features      AuthBasicFeatures `json:"features"`
 }
 
-type AuthRequest struct {
+type AuthBasicRequest struct {
 	Host string `json:"host"`
 	Id   string `json:"id"`
 }
 
-type AuthUser struct {
+type AuthBasicUser struct {
 	Id          string      `json:"id"`
 	Name        string      `json:"name"`
 	LegacyId    interface{} `json:"legacy_id"`
 	DisplayName string      `json:"display_name"`
 	Whitelabel  string      `json:"whitelabel"`
 	Scopes      []string    `json:"scopes"`
-	Role        string
+	Role        string      `json:"role"`
 }
 
-type AuthFeatures struct {
+type AuthBasicFeatures struct {
 	Crm              bool `json:"crm"`
 	Datev            bool `json:"datev"`
 	Pagers           bool `json:"pagers"`
@@ -70,8 +70,70 @@ type AuthFeatures struct {
 	BranchManagement bool `json:"branch_management"`
 }
 
-// Auth is to authenticate and get an bearer token back
-func Auth(email, password string) (AuthReturn, error) {
+// AuthKeyBody is to send the login data to tillhub
+type AuthKeyBody struct {
+	Id     string `json:"id"`
+	ApiKey string `json:"api_key"`
+}
+
+// AuthKeyReturn is to decode json response
+type AuthKeyReturn struct {
+	Status    int                  `json:"status"`
+	Msg       string               `json:"msg"`
+	Request   AuthKeyReturnRequest `json:"request"`
+	User      AuthKeyReturnUser    `json:"user"`
+	Token     string               `json:"token"`
+	TokenType string               `json:"token_type"`
+	SubUser   AuthKeyReturnSubUser `json:"sub_user"`
+	ExpiresAt string               `json:"expires_at"`
+}
+
+type AuthKeyReturnRequest struct {
+	Host string `json:"host"`
+	Id   string `json:"id"`
+}
+
+type AuthKeyReturnUser struct {
+	Id       string      `json:"id"`
+	Name     string      `json:"name"`
+	LegacyId interface{} `json:"legacy_id"`
+}
+
+type AuthKeyReturnSubUser struct {
+	Id                       string                   `json:"id"`
+	CreatedAt                string                   `json:"created_at"`
+	UpdatedAt                string                   `json:"updated_at"`
+	Metadata                 interface{}              `json:"metadata"`
+	Groups                   interface{}              `json:"groups"`
+	Scopes                   interface{}              `json:"scopes"`
+	Attributes               interface{}              `json:"attributes"`
+	User                     AuthKeyReturnSubUserUser `json:"user"`
+	Description              interface{}              `json:"description"`
+	Active                   bool                     `json:"active"`
+	Role                     string                   `json:"role"`
+	Parents                  interface{}              `json:"parents"`
+	Children                 interface{}              `json:"children"`
+	Blocked                  bool                     `json:"blocked"`
+	ConfigurationId          string                   `json:"configuration_id"`
+	UserId                   interface{}              `json:"user_id"`
+	Deleted                  bool                     `json:"deleted"`
+	ApiKey                   string                   `json:"api_key"`
+	Key                      interface{}              `json:"key"`
+	Username                 interface{}              `json:"username"`
+	Name                     string                   `json:"name"`
+	Locations                interface{}              `json:"locations"`
+	Firstname                interface{}              `json:"firstname"`
+	Lastname                 interface{}              `json:"lastname"`
+	UserPermissionTemplateId interface{}              `json:"user_permission_template_id"`
+}
+
+type AuthKeyReturnSubUserUser struct {
+	Id    interface{} `json:"id"`
+	Email interface{} `json:"email"`
+}
+
+// AuthBasic is to authenticate and get an bearer token back
+func AuthBasic(email, password string) (AuthBasicReturn, error) {
 
 	// Url
 	url := "https://api.tillhub.com/api/v0/users/login"
@@ -80,18 +142,18 @@ func Auth(email, password string) (AuthReturn, error) {
 	client := &http.Client{}
 
 	// Define json body
-	body := AuthBody{email, password}
+	body := AuthBasicBody{email, password}
 
 	// Prepare json body for request
 	convert, err := json.Marshal(body)
 	if err != nil {
-		return AuthReturn{}, err
+		return AuthBasicReturn{}, err
 	}
 
 	// Define request
 	request, err := http.NewRequest("POST", url, bytes.NewBuffer(convert))
 	if err != nil {
-		return AuthReturn{}, err
+		return AuthBasicReturn{}, err
 	}
 
 	// Set header
@@ -100,18 +162,66 @@ func Auth(email, password string) (AuthReturn, error) {
 	// Define response & send request
 	response, err := client.Do(request)
 	if err != nil {
-		return AuthReturn{}, err
+		return AuthBasicReturn{}, err
 	}
 
 	// Close body after function ends
 	defer response.Body.Close()
 
 	// Decode json return
-	var decode AuthReturn
+	var decode AuthBasicReturn
 
 	err = json.NewDecoder(response.Body).Decode(&decode)
 	if err != nil {
-		return AuthReturn{}, err
+		return AuthBasicReturn{}, err
+	}
+
+	// Return data
+	return decode, nil
+
+}
+
+func AuthKey(accountId, apiKey string) (AuthKeyReturn, error) {
+
+	// Url
+	url := "https://api.tillhub.com/api/v1/users/auth/key"
+
+	// Define client
+	client := &http.Client{}
+
+	// Define json body
+	body := AuthKeyBody{accountId, apiKey}
+
+	// Prepare json for request
+	convert, err := json.Marshal(body)
+	if err != nil {
+		return AuthKeyReturn{}, err
+	}
+
+	// Define request
+	request, err := http.NewRequest("POST", url, bytes.NewBuffer(convert))
+	if err != nil {
+		return AuthKeyReturn{}, err
+	}
+
+	// Set header
+	request.Header.Set("Content-Type", "application/json")
+
+	// Define response & send request
+	response, err := client.Do(request)
+	if err != nil {
+		return AuthKeyReturn{}, err
+	}
+
+	// Close body after function ends
+	defer response.Body.Close()
+
+	// Decode json return
+	var decode AuthKeyReturn
+
+	err = json.NewDecoder(response.Body).Decode(&decode)
+	if err != nil {
+		return AuthKeyReturn{}, err
 	}
 
 	// Return data
