@@ -39,3 +39,76 @@ if err != nil {
 // Print products
 fmt.Println(products)
 ```
+
+### Create an product
+
+```go
+// Create product data
+body := CreateProductBody{
+	true,
+    "product",
+    "J&J Testprodukt",
+    "673ba8d1-f544-48be-b432-122633e92715",
+    "f85910a6-94c4-40bd-a0ac-386ef880c857",
+    "JJTEST2021",
+    CreateProductBodyAttributes{},
+    []CreateProductBodyCodes{},
+    nil,
+    nil,
+    nil,
+    CreateProductBodyImages{},
+    nil,
+    true,
+    nil,
+    nil,
+    nil,
+    CreateProductBodyPrices{
+        []CreateProductBodyPricesDefaultPrices{
+            {
+                CreateProductBodyPricesDefaultPricesAmount{
+                    69,
+                    82.11,
+                },
+                3,
+                "EUR",
+                20,
+                2,
+            },
+        },
+        []CreateProductBodyPricesBranchPrices{},
+    },
+    nil,
+    true,
+    false,
+    nil,
+    nil,
+    CreateProductBodyManufacturer{
+        nil,
+    },
+    CreateProductBodySupplier{
+        nil,
+    },
+    nil,
+    "simple",
+    nil,
+    []CreateProductBodyTags{},
+    false,
+    nil,
+    CreateProductBodyConfiguration{
+        true,
+        CreateProductBodyConfigurationPricing{
+            false,
+        },
+    },
+    nil,
+    nil}
+
+// Create product function
+create, err := CreateProduct(body, data.User.Id, "Bearer "+data.Token)
+if err != nil {
+    fmt.Println(err)
+}
+
+// Print product data
+fmt.Println(create)
+```
