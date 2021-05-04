@@ -44,28 +44,28 @@ fmt.Println(products)
 
 ```go
 // Create product data
-body := CreateProductBody{
+body := tillhub.CreateProductBody{
 	true,
     "product",
     "J&J Testprodukt",
-    "673ba8d1-f544-48be-b432-122633e92715",
-    "f85910a6-94c4-40bd-a0ac-386ef880c857",
+    "UUIDofTheRevenueAccountObjectInTillhub",
+    "UUIDofTheTAXAccountObjectInTillhub",
     "JJTEST2021",
-    CreateProductBodyAttributes{},
-    []CreateProductBodyCodes{},
+	tillhub.CreateProductBodyAttributes{},
+    []tillhub.CreateProductBodyCodes{},
     nil,
     nil,
     nil,
-    CreateProductBodyImages{},
+    tillhub.CreateProductBodyImages{},
     nil,
     true,
     nil,
     nil,
     nil,
-    CreateProductBodyPrices{
-        []CreateProductBodyPricesDefaultPrices{
+    tillhub.CreateProductBodyPrices{
+        []tillhub.CreateProductBodyPricesDefaultPrices{
             {
-                CreateProductBodyPricesDefaultPricesAmount{
+			    tillhub.CreateProductBodyPricesDefaultPricesAmount{
                     69,
                     82.11,
                 },
@@ -75,28 +75,28 @@ body := CreateProductBody{
                 2,
             },
         },
-        []CreateProductBodyPricesBranchPrices{},
+        []tillhub.CreateProductBodyPricesBranchPrices{},
     },
     nil,
     true,
     false,
     nil,
     nil,
-    CreateProductBodyManufacturer{
+    tillhub.CreateProductBodyManufacturer{
         nil,
     },
-    CreateProductBodySupplier{
+    tillhub.CreateProductBodySupplier{
         nil,
     },
     nil,
     "simple",
     nil,
-    []CreateProductBodyTags{},
+    []tillhub.CreateProductBodyTags{},
     false,
     nil,
-    CreateProductBodyConfiguration{
+    tillhub.CreateProductBodyConfiguration{
         true,
-        CreateProductBodyConfigurationPricing{
+		tillhub.CreateProductBodyConfigurationPricing{
             false,
         },
     },
@@ -104,11 +104,24 @@ body := CreateProductBody{
     nil}
 
 // Create product function
-create, err := CreateProduct(body, data.User.Id, "Bearer "+data.Token)
+create, err := tillhub.CreateProduct(body, data.User.Id, "Bearer "+data.Token)
 if err != nil {
     fmt.Println(err)
 }
 
 // Print product data
 fmt.Println(create)
+```
+
+### Delete product
+
+```go
+// Delete an product whith his dependencies
+delete, err := DeleteProduct("productId", data.User.Id, "Bearer "+data.Token)
+if err != nil {
+    fmt.Println(err)
+}
+
+// Print return data
+fmt.Println(delete)
 ```
