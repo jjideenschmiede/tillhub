@@ -35,7 +35,7 @@ If you want to read out all products, you can do it with this function. Both sim
 
 ```go
 // Read all products
-products, err := tillhub.ReadProducts(data.User.Id, "Bearer "+data.Token)
+products, err := tillhub.ReadProducts("userId", "token")
 if err != nil {
     fmt.Println(err)
 }
@@ -44,7 +44,7 @@ if err != nil {
 fmt.Println(products)
 ```
 
-### Create a product
+### Create product
 
 If you want to create a product, you can do this using the following function call. [Here](https://developer.tillhub.com/tutorials/products/create/#getting-started) you can see the call in tillhub documentation.
 
@@ -110,7 +110,7 @@ body := tillhub.CreateProductBody{
     nil}
 
 // Create product function
-create, err := tillhub.CreateProduct(body, data.User.Id, "Bearer "+data.Token)
+create, err := tillhub.CreateProduct(body, "userId", "token")
 if err != nil {
     fmt.Println(err)
 }
@@ -119,13 +119,88 @@ if err != nil {
 fmt.Println(create)
 ```
 
-### Delete a product
+### Update product
+
+If you want to update a product, then you can do with the following function. Some data is needed for this. [Here](https://developer.tillhub.com/tutorials/products/update/) you can see the call in tillhub documentation.
+
+```go
+// Create product data
+body := tillhub.CreateProductBody{
+	true,
+    "product",
+    "J&J Testprodukt",
+    "UUIDofTheRevenueAccountObjectInTillhub",
+    "UUIDofTheTAXAccountObjectInTillhub",
+    "JJTEST2021",
+	tillhub.CreateProductBodyAttributes{},
+    []tillhub.CreateProductBodyCodes{},
+    nil,
+    nil,
+    nil,
+    tillhub.CreateProductBodyImages{},
+    nil,
+    true,
+    nil,
+    nil,
+    nil,
+    tillhub.CreateProductBodyPrices{
+        []tillhub.CreateProductBodyPricesDefaultPrices{
+            {
+			    tillhub.CreateProductBodyPricesDefaultPricesAmount{
+                    69,
+                    82.11,
+                },
+                3,
+                "EUR",
+                20,
+                2,
+            },
+        },
+        []tillhub.CreateProductBodyPricesBranchPrices{},
+    },
+    nil,
+    true,
+    false,
+    nil,
+    nil,
+    tillhub.CreateProductBodyManufacturer{
+        nil,
+    },
+    tillhub.CreateProductBodySupplier{
+        nil,
+    },
+    nil,
+    "simple",
+    nil,
+    []tillhub.CreateProductBodyTags{},
+    false,
+    nil,
+    tillhub.CreateProductBodyConfiguration{
+        true,
+		tillhub.CreateProductBodyConfigurationPricing{
+            false,
+        },
+    },
+    nil,
+    nil}
+
+// Create product function
+create, err := tillhub.UpdateProduct(body, "productId", "userId", "token")
+if err != nil {
+    fmt.Println(err)
+}
+
+// Print product data
+fmt.Println(create)
+```
+
+### Delete product
 
 To remove a product you need the ID of the product and you can remove it with this function. [Here](https://developer.tillhub.com/tutorials/products/delete/#getting-started) you can see the call in tillhub documentation.
 
 ```go
 // Delete an product whith his dependencies
-delete, err := DeleteProduct("productId", data.User.Id, "Bearer "+data.Token)
+delete, err := DeleteProduct("productId", "userId", "token")
 if err != nil {
     fmt.Println(err)
 }
