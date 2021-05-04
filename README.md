@@ -14,13 +14,28 @@ go get github.com/jjideenschmiede/tillhub
 
 Here you can find an overview of all currently created functions.
 
-### Authentication
+### Basic authentication
 
 To access the API you need a current Bearer Token. You will receive this token with further information about this function. [Here](https://developer.tillhub.com/tutorials/auth/basic/#basic-auth-flow) you can see the call in tillhub documentation.
 
 ```go
 // Get bearer token
-data, err := tillhub.Auth("email", "password")
+data, err := tillhub.AuthBasic("email", "password")
+if err != nil {
+    fmt.Println(err)
+}
+
+// Print token
+fmt.Println(data.token)
+```
+
+### API key authentication
+
+To access the API you need a current Bearer Token. You will receive this token with further information about this function. [Here](https://developer.tillhub.com/tutorials/auth/key/) you can see the call in tillhub documentation.
+
+```go
+// Get bearer token
+data, err := tillhub.AuthKey("accoundId", "apiKey")
 if err != nil {
     fmt.Println(err)
 }
