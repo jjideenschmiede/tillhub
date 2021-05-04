@@ -398,7 +398,7 @@ type CreateProductReturnResultsSupplier struct {
 type CreateProductReturnResultsPrices struct {
 	BasePrices    []interface{}                                   `json:"base_prices"`
 	BranchPrices  []interface{}                                   `json:"branch_prices"`
-	scaledPrices  []interface{}                                   `json:"scaled_prices"`
+	ScaledPrices  []interface{}                                   `json:"scaled_prices"`
 	DefaultPrices []CreateProductReturnResultsPricesDefaultPrices `json:"default_prices"`
 }
 
@@ -421,6 +421,135 @@ type CreateProductReturnResultsConfiguration struct {
 }
 
 type CreateProductReturnResultsConfigurationPricing struct {
+	AllowIsFree bool `json:"allow_is_free"`
+}
+
+// UpdateProductReturn is to decode the json return
+type UpdateProductReturn struct {
+	Status  int                          `json:"status"`
+	Msg     string                       `json:"msg"`
+	Request UpdateProductReturnRequest   `json:"request"`
+	Count   int                          `json:"count"`
+	Results []UpdateProductReturnResults `json:"results"`
+}
+
+type UpdateProductReturnRequest struct {
+	Host string `json:"host"`
+	Id   string `json:"id"`
+}
+
+type UpdateProductReturnResults struct {
+	Id                         string                                  `json:"id"`
+	Sku                        interface{}                             `json:"sku"`
+	Tax                        string                                  `json:"tax"`
+	I18n                       interface{}                             `json:"i18n"`
+	Name                       string                                  `json:"name"`
+	Tags                       []interface{}                           `json:"tags"`
+	Type                       string                                  `json:"type"`
+	Brand                      interface{}                             `json:"brand"`
+	Codes                      []interface{}                           `json:"codes"`
+	Active                     bool                                    `json:"active"`
+	Images                     interface{}                             `json:"images"`
+	Online                     interface{}                             `json:"online"`
+	Parent                     interface{}                             `json:"parent"`
+	Policy                     interface{}                             `json:"policy"`
+	Prices                     UpdateProductReturnResultsPrices        `json:"prices"`
+	Season                     interface{}                             `json:"season"`
+	Account                    string                                  `json:"account"`
+	Barcode                    interface{}                             `json:"barcode"`
+	Deleted                    bool                                    `json:"deleted"`
+	Seasons                    interface{}                             `json:"seasons"`
+	Summary                    interface{}                             `json:"summary"`
+	Category                   interface{}                             `json:"category"`
+	Keywords                   []interface{}                           `json:"keywords"`
+	Linkable                   bool                                    `json:"linkable"`
+	Metadata                   interface{}                             `json:"metadata"`
+	Sellable                   bool                                    `json:"sellable"`
+	Supplier                   UpdateProductReturnResultsSupplier      `json:"supplier"`
+	Audiences                  []interface{}                           `json:"audiences"`
+	ClientId                   interface{}                             `json:"client_id"`
+	Condition                  interface{}                             `json:"condition"`
+	CustomId                   interface{}                             `json:"custom_id"`
+	InsertId                   interface{}                             `json:"insert_id"`
+	Locations                  interface{}                             `json:"locations"`
+	Revisions                  interface{}                             `json:"revisions"`
+	Stockable                  bool                                    `json:"stockable"`
+	VatClass                   interface{}                             `json:"vat_class"`
+	Attributes                 interface{}                             `json:"attributes"`
+	Categories                 interface{}                             `json:"categories"`
+	CreatedAt                  UpdateProductReturnResultsCreatedAt     `json:"created_at"`
+	Delegatable                bool                                    `json:"delegatable"`
+	Description                interface{}                             `json:"description"`
+	ProducedAt                 interface{}                             `json:"produced_at"`
+	Purchasable                bool                                    `json:"purchasable"`
+	ReleasedAt                 interface{}                             `json:"released_at"`
+	ReorderQty                 interface{}                             `json:"reorder_qty"`
+	Delegateable               bool                                    `json:"delegateable"`
+	DelegatedTo                interface{}                             `json:"delegated_to"`
+	Discountable               bool                                    `json:"discountable"`
+	ExternalIds                interface{}                             `json:"external_ids"`
+	Manufacturer               UpdateProductReturnResultsManufacturer  `json:"manufacturer"`
+	PurchasedAt                interface{}                             `json:"purchased_at"`
+	Configuration              UpdateProductReturnResultsConfiguration `json:"configuration"`
+	Manufacturers              interface{}                             `json:"manufacturers"`
+	ProductGroup               interface{}                             `json:"product_group"`
+	RefundPolicy               interface{}                             `json:"refund_policy"`
+	ReorderPoint               interface{}                             `json:"reorder_point"`
+	StockMaximum               interface{}                             `json:"stock_maximum"`
+	StockMinimum               interface{}                             `json:"stock_minimum"`
+	TaxesOptions               interface{}                             `json:"taxes_options"`
+	DelegatableTo              interface{}                             `json:"delegatable_to"`
+	DelegatedFrom              interface{}                             `json:"delegated_from"`
+	LoyaltyValues              interface{}                             `json:"loyalty_values"`
+	DelegateableTo             interface{}                             `json:"delegateable_to"`
+	LinkedProducts             interface{}                             `json:"linked_products"`
+	WarrantyNotice             interface{}                             `json:"warranty_notice"`
+	CustomProperties           interface{}                             `json:"custom_properties"`
+	ServiceQuestions           interface{}                             `json:"service_questions"`
+	DefaultTitleColor          interface{}                             `json:"default_title_color"`
+	ExternalReferenceId        interface{}                             `json:"external_reference_id"`
+	ServiceQuestionGroups      interface{}                             `json:"service_question_groups"`
+	SerialNumberInputRequired  bool                                    `json:"serial_number_input_required"`
+	StockConfigurationLocation interface{}                             `json:"stock_configuration_location"`
+}
+
+type UpdateProductReturnResultsPrices struct {
+	BranchPrices  []interface{}                                   `json:"branch_prices"`
+	DefaultPrices []UpdateProductReturnResultsPricesDefaultPrices `json:"default_prices"`
+}
+
+type UpdateProductReturnResultsPricesDefaultPrices struct {
+	Cost          int                                                 `json:"cost"`
+	Amount        UpdateProductReturnResultsPricesDefaultPricesAmount `json:"amount"`
+	Margin        int                                                 `json:"margin"`
+	Currency      string                                              `json:"currency"`
+	PurchasePrice int                                                 `json:"purchase_price"`
+}
+
+type UpdateProductReturnResultsPricesDefaultPricesAmount struct {
+	Net   float64 `json:"net"`
+	Gross float64 `json:"gross"`
+}
+
+type UpdateProductReturnResultsSupplier struct {
+	Sku interface{} `json:"sku"`
+}
+
+type UpdateProductReturnResultsCreatedAt struct {
+	Iso  string `json:"iso"`
+	Unix int    `json:"unix"`
+}
+
+type UpdateProductReturnResultsManufacturer struct {
+	Iln interface{} `json:"iln"`
+}
+
+type UpdateProductReturnResultsConfiguration struct {
+	Pricing        CreateProductReturnResultsConfigurationPricing `json:"pricing"`
+	AllowZeroPrice bool                                           `json:"allow_zero_price"`
+}
+
+type UpdateProductReturnResultsConfigurationPricing struct {
 	AllowIsFree bool `json:"allow_is_free"`
 }
 
@@ -518,6 +647,54 @@ func CreateProduct(data CreateProductBody, userId, token string) (CreateProductR
 	err = json.NewDecoder(response.Body).Decode(&decode)
 	if err != nil {
 		return CreateProductReturn{}, err
+	}
+
+	// Return data
+	return decode, nil
+
+}
+
+// UpdateProduct is to update an existing product
+func UpdateProduct(data CreateProductBody, productId, userId, token string) (UpdateProductReturn, error) {
+
+	// Set url
+	url := "https://api.tillhub.com/api/v1/products/" + userId + "/" + productId
+
+	// Define client
+	client := &http.Client{}
+
+	// Convert body data
+	convert, err := json.Marshal(data)
+	if err != nil {
+		return UpdateProductReturn{}, err
+	}
+
+	// Define request
+	request, err := http.NewRequest("PUT", url, bytes.NewBuffer(convert))
+	if err != nil {
+		return UpdateProductReturn{}, err
+	}
+
+	// Set header
+	request.Header.Set("Accept", "application/json, text/plain, */*")
+	request.Header.Set("Content-Type", "application/json;charset=UTF-8")
+	request.Header.Set("Authorization", token)
+
+	// Set response and send request
+	response, err := client.Do(request)
+	if err != nil {
+		return UpdateProductReturn{}, err
+	}
+
+	// Close body after function ends
+	defer response.Body.Close()
+
+	// Decode json response
+	var decode UpdateProductReturn
+
+	err = json.NewDecoder(response.Body).Decode(&decode)
+	if err != nil {
+		return UpdateProductReturn{}, err
 	}
 
 	// Return data
