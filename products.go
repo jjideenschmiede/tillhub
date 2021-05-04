@@ -424,6 +424,18 @@ type CreateProductReturnResultsConfigurationPricing struct {
 	AllowIsFree bool `json:"allow_is_free"`
 }
 
+// DeleteProductReturn is to decode json response
+type DeleteProductReturn struct {
+	Status  int                        `json:"status"`
+	Msg     string                     `json:"msg"`
+	Request DeleteProductReturnRequest `json:"request"`
+}
+
+type DeleteProductReturnRequest struct {
+	Host string `json:"host"`
+	Id   string `json:"id"`
+}
+
 // ReadProducts is to read products
 func ReadProducts(userId, token string) (ReadProductsReturn, error) {
 
@@ -506,6 +518,48 @@ func CreateProduct(data CreateProductBody, userId, token string) (CreateProductR
 	err = json.NewDecoder(response.Body).Decode(&decode)
 	if err != nil {
 		return CreateProductReturn{}, err
+	}
+
+	// Return data
+	return decode, nil
+
+}
+
+// DeleteProduct is to delete an product and his dependencies
+func DeleteProduct(productId, userId, token string) (DeleteProductReturn, error) {
+
+	// Set url
+	url := "https://api.tillhub.com/api/v1/products/" + userId + "/" + productId + "?delete_dependencies=true"
+
+	// Define client
+	client := &http.Client{}
+
+	// Define request
+	request, err := http.NewRequest("DELETE", url, nil)
+	if err != nil {
+		return DeleteProductReturn{}, err
+	}
+
+	// Set header
+	request.Header.Set("Accept", "application/json, text/plain, */*")
+	request.Header.Set("Content-Type", "application/json;charset=UTF-8")
+	request.Header.Set("Authorization", token)
+
+	// Set response and send request
+	response, err := client.Do(request)
+	if err != nil {
+		return DeleteProductReturn{}, err
+	}
+
+	// Close body after function ends
+	defer response.Body.Close()
+
+	// Decode json response
+	var decode DeleteProductReturn
+
+	err = json.NewDecoder(response.Body).Decode(&decode)
+	if err != nil {
+		return DeleteProductReturn{}, err
 	}
 
 	// Return data
