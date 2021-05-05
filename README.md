@@ -307,3 +307,35 @@ if err != nil {
 // Print return
 fmt.Println(group)
 ```
+
+### Update a product group
+
+To update a product group the following function can be used. You can find the documentation [here](https://api.tillhub.com/api/docs#tag/product_groups/paths/~1api~1v0~1product_groups~1{clientAccountID}~1{productGroupID}/put).
+
+```go
+// Create product body data
+body := tillhub.CreateProductGroupBody{
+    true,
+    "#87cef9",
+    "newGroup",
+    "00001",
+    "f85910a6-94c4-40bd-a0ac-386ef880c857",
+    "673ba8d1-f544-48be-b432-122633e92715",
+	tillhub.CreateProductGroupBodyImages{
+        "https://storage.googleapis.com/tillhub-api-images/dd5a5b03-69fd-4747-bd6c-2ecf22ec78c1/productGroups/1a743bf7-10af-4897-891e-13c9924441de_1x.png",
+        "https://storage.googleapis.com/tillhub-api-images/dd5a5b03-69fd-4747-bd6c-2ecf22ec78c1/productGroups/1a743bf7-10af-4897-891e-13c9924441de_1x.png",
+        "https://storage.googleapis.com/tillhub-api-images/dd5a5b03-69fd-4747-bd6c-2ecf22ec78c1/productGroups/1a743bf7-10af-4897-891e-13c9924441de_1x.png",
+        "https://storage.googleapis.com/tillhub-api-images/dd5a5b03-69fd-4747-bd6c-2ecf22ec78c1/productGroups/1a743bf7-10af-4897-891e-13c9924441de_1x.png",
+        "https://storage.googleapis.com/tillhub-api-images/dd5a5b03-69fd-4747-bd6c-2ecf22ec78c1/productGroups/1a743bf7-10af-4897-891e-13c9924441de_1x.png",
+    },
+}
+
+// Save new product group
+group, err := tillhub.UpdateProductGroup(body, "groupId", "accountId", "token")
+if err != nil {
+    fmt.Println(err)
+}
+
+// Print return
+fmt.Println(group)
+```
