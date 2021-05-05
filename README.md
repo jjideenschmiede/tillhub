@@ -44,6 +44,21 @@ if err != nil {
 fmt.Println(data.token)
 ```
 
+### Tax
+
+To find out the tax ids and get more information about the tax you can use the following function. [Here](https://developer.tillhub.com/tutorials/products/create/#prerequisits) you can see the call in tillhub documentation.
+
+```go
+// Get tax information
+tax, err := Tax("accoundId", "token")
+if err != nil {
+    fmt.Println(err)
+}
+
+// Print tax information
+fmt.Println(tax)
+```
+
 ### Read all products
 
 If you want to read out all products, you can do it with this function. Both simple and variable products are returned. [Here](https://developer.tillhub.com/tutorials/products/read/#getting-started) you can see the call in tillhub documentation.
