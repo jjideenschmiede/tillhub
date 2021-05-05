@@ -59,14 +59,14 @@ type ReadProductsResults struct {
 	CreatedAt                  ReadProductsResultsCreatedAt     `json:"created_at"`
 	UpdatedAt                  ReadProductsResultsUpdatedAt     `json:"updated_at"`
 	Name                       string                           `json:"name"`
-	Summary                    interface{}                      `json:"summary"`
-	Description                interface{}                      `json:"description"`
+	Summary                    string                           `json:"summary"`
+	Description                string                           `json:"description"`
 	Account                    string                           `json:"account"`
 	Tax                        string                           `json:"tax"`
 	VatClass                   interface{}                      `json:"vat_class"`
 	Category                   interface{}                      `json:"category"`
-	Brand                      interface{}                      `json:"brand"`
-	Images                     interface{}                      `json:"images"`
+	Brand                      string                           `json:"brand"`
+	Images                     ReadProductsResultsImages        `json:"images,omitempty"`
 	Condition                  interface{}                      `json:"condition"`
 	Manufacturer               ReadProductsResultsManufacturer  `json:"manufacturer"`
 	ProducedAt                 interface{}                      `json:"produced_at"`
@@ -87,7 +87,7 @@ type ReadProductsResults struct {
 	Attributes                 interface{}                      `json:"attributes"`
 	Barcode                    interface{}                      `json:"barcode"`
 	Prices                     ReadProductsResultsPrices        `json:"prices"`
-	Sku                        interface{}                      `json:"sku"`
+	Sku                        string                           `json:"sku"`
 	StockMinimum               interface{}                      `json:"stock_minimum"`
 	Stockable                  bool                             `json:"stockable"`
 	TaxesOptions               interface{}                      `json:"taxes_options"`
@@ -101,13 +101,13 @@ type ReadProductsResults struct {
 	Codes                      interface{}                      `json:"codes"`
 	ReorderPoint               interface{}                      `json:"reorder_point"`
 	ReorderQty                 interface{}                      `json:"reorder_qty"`
-	ExternalReferenceId        interface{}                      `json:"external_reference_id"`
+	ExternalReferenceId        string                           `json:"external_reference_id"`
 	ClientId                   interface{}                      `json:"client_id"`
-	DefaultTitleColor          interface{}                      `json:"default_title_color"`
+	DefaultTitleColor          string                           `json:"default_title_color"`
 	Discountable               bool                             `json:"discountable"`
 	Linkable                   bool                             `json:"linkable"`
 	StockConfigurationLocation interface{}                      `json:"stock_configuration_location"`
-	StockMode                  interface{}                      `json:"stock_mode"`
+	StockMode                  string                           `json:"stock_mode"`
 	Locations                  interface{}                      `json:"locations"`
 	IsService                  bool                             `json:"is_service"`
 	ServiceQuestions           interface{}                      `json:"service_questions"`
@@ -153,19 +153,32 @@ type ReadProductsResultsUpdatedAt struct {
 	Unix int    `json:"unix"`
 }
 
+type ReadProductsResultsImages struct {
+	First        string `json:"1x"`
+	Second       string `json:"2x"`
+	Third        string `json:"3x"`
+	LiaFirst     string `json:"lia_1x"`
+	LiaSecond    string `json:"lia_2x"`
+	LiaThird     string `json:"lia_3x"`
+	Original     string `json:"original"`
+	SquareFirst  string `json:"square_1x"`
+	SquareSecond string `json:"square_2x"`
+	SquareThird  string `json:"square_3x"`
+}
+
 type ReadProductsResultsManufacturer struct {
-	Iln interface{} `json:"iln"`
+	Iln string `json:"iln"`
 }
 
 type ReadProductsResultsSupplier struct {
-	Sku interface{} `json:"sku"`
+	Sku string `json:"sku"`
 }
 
 type ReadProductsResultsPrices struct {
 	BasePrices    []interface{}                            `json:"base_prices"`
 	BranchPrices  []interface{}                            `json:"branch_prices"`
 	scaledPrices  []interface{}                            `json:"scaled_prices"`
-	DefaultPrices []ReadProductsResultsPricesDefaultPrices `json:"default_prices"`
+	DefaultPrices []ReadProductsResultsPricesDefaultPrices `json:"default_prices,omitempty"`
 }
 
 type ReadProductsResultsPricesDefaultPrices struct {
@@ -399,7 +412,7 @@ type CreateProductReturnResultsPrices struct {
 	BasePrices    []interface{}                                   `json:"base_prices"`
 	BranchPrices  []interface{}                                   `json:"branch_prices"`
 	ScaledPrices  []interface{}                                   `json:"scaled_prices"`
-	DefaultPrices []CreateProductReturnResultsPricesDefaultPrices `json:"default_prices"`
+	DefaultPrices []CreateProductReturnResultsPricesDefaultPrices `json:"default_prices,omitempty"`
 }
 
 type CreateProductReturnResultsPricesDefaultPrices struct {
@@ -440,16 +453,16 @@ type UpdateProductReturnRequest struct {
 
 type UpdateProductReturnResults struct {
 	Id                         string                                  `json:"id"`
-	Sku                        interface{}                             `json:"sku"`
+	Sku                        string                                  `json:"sku"`
 	Tax                        string                                  `json:"tax"`
 	I18n                       interface{}                             `json:"i18n"`
 	Name                       string                                  `json:"name"`
 	Tags                       []interface{}                           `json:"tags"`
 	Type                       string                                  `json:"type"`
-	Brand                      interface{}                             `json:"brand"`
+	Brand                      string                                  `json:"brand"`
 	Codes                      []interface{}                           `json:"codes"`
 	Active                     bool                                    `json:"active"`
-	Images                     interface{}                             `json:"images"`
+	Images                     UpdateProductReturnResultsImages        `json:"images,omitempty"`
 	Online                     interface{}                             `json:"online"`
 	Parent                     interface{}                             `json:"parent"`
 	Policy                     interface{}                             `json:"policy"`
@@ -459,7 +472,7 @@ type UpdateProductReturnResults struct {
 	Barcode                    interface{}                             `json:"barcode"`
 	Deleted                    bool                                    `json:"deleted"`
 	Seasons                    interface{}                             `json:"seasons"`
-	Summary                    interface{}                             `json:"summary"`
+	Summary                    string                                  `json:"summary"`
 	Category                   interface{}                             `json:"category"`
 	Keywords                   []interface{}                           `json:"keywords"`
 	Linkable                   bool                                    `json:"linkable"`
@@ -469,7 +482,7 @@ type UpdateProductReturnResults struct {
 	Audiences                  []interface{}                           `json:"audiences"`
 	ClientId                   interface{}                             `json:"client_id"`
 	Condition                  interface{}                             `json:"condition"`
-	CustomId                   interface{}                             `json:"custom_id"`
+	CustomId                   string                                  `json:"custom_id"`
 	InsertId                   interface{}                             `json:"insert_id"`
 	Locations                  interface{}                             `json:"locations"`
 	Revisions                  interface{}                             `json:"revisions"`
@@ -479,7 +492,7 @@ type UpdateProductReturnResults struct {
 	Categories                 interface{}                             `json:"categories"`
 	CreatedAt                  UpdateProductReturnResultsCreatedAt     `json:"created_at"`
 	Delegatable                bool                                    `json:"delegatable"`
-	Description                interface{}                             `json:"description"`
+	Description                string                                  `json:"description"`
 	ProducedAt                 interface{}                             `json:"produced_at"`
 	Purchasable                bool                                    `json:"purchasable"`
 	ReleasedAt                 interface{}                             `json:"released_at"`
@@ -506,11 +519,24 @@ type UpdateProductReturnResults struct {
 	WarrantyNotice             interface{}                             `json:"warranty_notice"`
 	CustomProperties           interface{}                             `json:"custom_properties"`
 	ServiceQuestions           interface{}                             `json:"service_questions"`
-	DefaultTitleColor          interface{}                             `json:"default_title_color"`
-	ExternalReferenceId        interface{}                             `json:"external_reference_id"`
+	DefaultTitleColor          string                                  `json:"default_title_color"`
+	ExternalReferenceId        string                                  `json:"external_reference_id"`
 	ServiceQuestionGroups      interface{}                             `json:"service_question_groups"`
 	SerialNumberInputRequired  bool                                    `json:"serial_number_input_required"`
 	StockConfigurationLocation interface{}                             `json:"stock_configuration_location"`
+}
+
+type UpdateProductReturnResultsImages struct {
+	First        string `json:"1x"`
+	Second       string `json:"2x"`
+	Third        string `json:"3x"`
+	LiaFirst     string `json:"lia_1x"`
+	LiaSecond    string `json:"lia_2x"`
+	LiaThird     string `json:"lia_3x"`
+	Original     string `json:"original"`
+	SquareFirst  string `json:"square_1x"`
+	SquareSecond string `json:"square_2x"`
+	SquareThird  string `json:"square_3x"`
 }
 
 type UpdateProductReturnResultsPrices struct {
@@ -532,7 +558,7 @@ type UpdateProductReturnResultsPricesDefaultPricesAmount struct {
 }
 
 type UpdateProductReturnResultsSupplier struct {
-	Sku interface{} `json:"sku"`
+	Sku string `json:"sku"`
 }
 
 type UpdateProductReturnResultsCreatedAt struct {
@@ -541,7 +567,7 @@ type UpdateProductReturnResultsCreatedAt struct {
 }
 
 type UpdateProductReturnResultsManufacturer struct {
-	Iln interface{} `json:"iln"`
+	Iln string `json:"iln"`
 }
 
 type UpdateProductReturnResultsConfiguration struct {
