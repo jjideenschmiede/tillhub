@@ -35,7 +35,7 @@ To access the API you need a current Bearer Token. You will receive this token w
 
 ```go
 // Get bearer token
-data, err := tillhub.AuthKey("accoundId", "apiKey")
+data, err := tillhub.AuthKey("accudId", "apiKey")
 if err != nil {
     fmt.Println(err)
 }
@@ -92,7 +92,18 @@ body := tillhub.CreateProductBody{
     nil,
     nil,
     nil,
-    tillhub.CreateProductBodyImages{},
+    tillhub.CreateProductBodyImages{
+        "https://jj-ideenschmiede.de/test.png",
+		"https://jj-ideenschmiede.de/test.png",
+		"https://jj-ideenschmiede.de/test.png",
+		"https://jj-ideenschmiede.de/test.png",
+		"https://jj-ideenschmiede.de/test.png",
+        "https://jj-ideenschmiede.de/test.png",
+        "https://jj-ideenschmiede.de/test.png",
+        "https://jj-ideenschmiede.de/test.png",
+        "https://jj-ideenschmiede.de/test.png",
+        "https://jj-ideenschmiede.de/test.png",
+    },
     nil,
     true,
     nil,
@@ -167,7 +178,18 @@ body := tillhub.CreateProductBody{
     nil,
     nil,
     nil,
-    tillhub.CreateProductBodyImages{},
+    tillhub.CreateProductBodyImages{
+        "https://jj-ideenschmiede.de/test.png",
+        "https://jj-ideenschmiede.de/test.png",
+        "https://jj-ideenschmiede.de/test.png",
+        "https://jj-ideenschmiede.de/test.png",
+        "https://jj-ideenschmiede.de/test.png",
+        "https://jj-ideenschmiede.de/test.png",
+        "https://jj-ideenschmiede.de/test.png",
+        "https://jj-ideenschmiede.de/test.png",
+        "https://jj-ideenschmiede.de/test.png",
+        "https://jj-ideenschmiede.de/test.png",
+    },
     nil,
     true,
     nil,
@@ -237,4 +259,19 @@ if err != nil {
 
 // Print return data
 fmt.Println(delete)
+```
+
+### Read all product groups
+
+If you want to read out all product groups, you can do it with this function. Both simple and variable products are returned. [Here](https://api.tillhub.com/api/docs#tag/product_groups/paths/~1api~1v0~1product_groups~1{clientAccountID}/get) you can see the call in tillhub documentation.
+
+```go
+// Get all product groups
+groups, err := ProductGroups("accoundId", "token")
+if err != nil {
+fmt.Println(err)
+}
+
+// Print all product groups
+fmt.Println(groups)
 ```
