@@ -330,7 +330,7 @@ body := tillhub.CreateProductGroupBody{
     },
 }
 
-// Save new product group
+// Update product group
 group, err := tillhub.UpdateProductGroup(body, "groupId", "accountId", "token")
 if err != nil {
     fmt.Println(err)
@@ -338,4 +338,19 @@ if err != nil {
 
 // Print return
 fmt.Println(group)
+```
+
+### Delete product group
+
+To delete a product group the following function can be used. You can find the documentation [here](https://api.tillhub.com/api/docs#tag/product_groups/paths/~1api~1v0~1product_groups~1{clientAccountID}~1{product_groupID}/delete).
+
+```go
+// Update product group
+delete, err := tillhub.DeleteProductGroup("groupId", "accountId", "token")
+if err != nil {
+    fmt.Println(err)
+}
+
+// Print return
+fmt.Println(delete)
 ```
