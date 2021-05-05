@@ -64,6 +64,7 @@ type ProductGroupsReturnResultsImages struct {
 	Orginal string `json:"orginal"`
 }
 
+// ProductGroups is to check all product groups
 func ProductGroups(accountId, token string) (ProductGroupsReturn, error) {
 
 	// Set url
