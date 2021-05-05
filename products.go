@@ -216,7 +216,7 @@ type CreateProductBody struct {
 	Barcode             interface{}                    `json:"barcode"`
 	ProductGroup        interface{}                    `json:"product_group"`
 	Categories          interface{}                    `json:"categories"`
-	Images              CreateProductBodyImages        `json:"images"`
+	Images              CreateProductBodyImages        `json:"images,omitempty"`
 	StockMinimum        interface{}                    `json:"stock_minimum"`
 	Stockable           bool                           `json:"stockable"`
 	Sku                 interface{}                    `json:"sku"`
@@ -248,6 +248,16 @@ type CreateProductBodyCodes struct {
 }
 
 type CreateProductBodyImages struct {
+	First        string `json:"1x"`
+	Second       string `json:"2x"`
+	Third        string `json:"3x"`
+	LiaFirst     string `json:"lia_1x"`
+	LiaSecond    string `json:"lia_2x"`
+	LiaThird     string `json:"lia_3x"`
+	Original     string `json:"original"`
+	SquareFirst  string `json:"square_1x"`
+	SquareSecond string `json:"square_2x"`
+	SquareThird  string `json:"square_3x"`
 }
 
 type CreateProductBodyPrices struct {
