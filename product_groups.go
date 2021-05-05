@@ -220,3 +220,51 @@ func CreateProductGroup(data CreateProductGroupBody, accountId, token string) (C
 	return decode, nil
 
 }
+
+// UpdateProductGroup is to update a product group
+func UpdateProductGroup(data CreateProductGroupBody, groupId, accountId, token string) (CreateProductGroupReturn, error) {
+
+	// Set url
+	url := "https://api.tillhub.com/api/v0/product_groups/" + accountId + "/" + groupId
+
+	// Define client
+	client := &http.Client{}
+
+	// Prepare body data
+	convert, err := json.Marshal(data)
+	if err != nil {
+		return CreateProductGroupReturn{}, err
+	}
+
+	// Define request
+	request, err := http.NewRequest("PUT", url, bytes.NewBuffer(convert))
+	if err != nil {
+		return CreateProductGroupReturn{}, err
+	}
+
+	// Set header
+	request.Header.Set("Accept", "application/json, text/plain, */*")
+	request.Header.Set("Content-Type", "application/json;charset=UTF-8")
+	request.Header.Set("Authorization", "Bearer "+token)
+
+	// Define response & send request
+	response, err := client.Do(request)
+	if err != nil {
+		return CreateProductGroupReturn{}, err
+	}
+
+	// Close body after function ends
+	defer response.Body.Close()
+
+	// Decode json response
+	var decode CreateProductGroupReturn
+
+	err = json.NewDecoder(response.Body).Decode(&decode)
+	if err != nil {
+		return CreateProductGroupReturn{}, err
+	}
+
+	// Return data
+	return decode, nil
+
+}
