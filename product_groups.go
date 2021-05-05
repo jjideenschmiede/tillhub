@@ -132,6 +132,18 @@ type CreateProductGroupReturnResultsImages struct {
 	Original string `json:"original"`
 }
 
+// DeleteProductGroupReturn is to decode json return
+type DeleteProductGroupReturn struct {
+	Status  int                             `json:"status"`
+	Msg     string                          `json:"msg"`
+	Request DeleteProductGroupReturnRequest `json:"request"`
+}
+
+type DeleteProductGroupReturnRequest struct {
+	Host string `json:"host"`
+	Id   string `json:"id"`
+}
+
 // ProductGroups is to check all product groups
 func ProductGroups(accountId, token string) (ProductGroupsReturn, error) {
 
@@ -262,6 +274,47 @@ func UpdateProductGroup(data CreateProductGroupBody, groupId, accountId, token s
 	err = json.NewDecoder(response.Body).Decode(&decode)
 	if err != nil {
 		return CreateProductGroupReturn{}, err
+	}
+
+	// Return data
+	return decode, nil
+
+}
+
+func DeleteProductGroup(groupId, accountId, token string) (DeleteProductGroupReturn, error) {
+
+	// Set url
+	url := "https://api.tillhub.com/api/v0/product_groups/" + accountId + "/" + groupId
+
+	// Define client
+	client := &http.Client{}
+
+	// Define request
+	request, err := http.NewRequest("DELETE", url, nil)
+	if err != nil {
+		return DeleteProductGroupReturn{}, err
+	}
+
+	// Set header
+	request.Header.Set("Accept", "application/json, text/plain, */*")
+	request.Header.Set("Content-Type", "application/json;charset=UTF-8")
+	request.Header.Set("Authorization", "Bearer "+token)
+
+	// Define response & send request
+	response, err := client.Do(request)
+	if err != nil {
+		return DeleteProductGroupReturn{}, err
+	}
+
+	// Close body after function ends
+	defer response.Body.Close()
+
+	// Decode json response
+	var decode DeleteProductGroupReturn
+
+	err = json.NewDecoder(response.Body).Decode(&decode)
+	if err != nil {
+		return DeleteProductGroupReturn{}, err
 	}
 
 	// Return data
