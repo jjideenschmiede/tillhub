@@ -12,6 +12,7 @@
 package tillhub
 
 import (
+	"bytes"
 	"encoding/json"
 	"net/http"
 )
@@ -57,11 +58,78 @@ type ProductGroupsReturnResultsUpdatedAt struct {
 }
 
 type ProductGroupsReturnResultsImages struct {
-	First   string `json:"1x"`
-	Second  string `json:"2x"`
-	Third   string `json:"3x"`
-	Avatar  string `json:"avatar"`
-	Orginal string `json:"orginal"`
+	First    string `json:"1x"`
+	Second   string `json:"2x"`
+	Third    string `json:"3x"`
+	Avatar   string `json:"avatar"`
+	Original string `json:"original"`
+}
+
+// CreateProductGroupBody is to send body data
+type CreateProductGroupBody struct {
+	Active         bool                         `json:"active"`
+	Color          string                       `json:"color"`
+	Name           string                       `json:"name"`
+	ProductGroupId string                       `json:"product_group_id"`
+	Tax            string                       `json:"tax"`
+	Account        string                       `json:"account"`
+	Images         CreateProductGroupBodyImages `json:"images"`
+}
+
+type CreateProductGroupBodyImages struct {
+	First    string `json:"1x"`
+	Second   string `json:"2x"`
+	Third    string `json:"3x"`
+	Avatar   string `json:"avatar"`
+	Original string `json:"original"`
+}
+
+// CreateProductGroupReturn is to decode json data
+type CreateProductGroupReturn struct {
+	Status  int                               `json:"status"`
+	Msg     string                            `json:"msg"`
+	Request CreateProductGroupReturnRequest   `json:"request"`
+	Count   int                               `json:"count"`
+	Results []CreateProductGroupReturnResults `json:"results"`
+}
+
+type CreateProductGroupReturnRequest struct {
+	Host string `json:"host"`
+	Id   string `json:"id"`
+}
+
+type CreateProductGroupReturnResults struct {
+	Id             string                                   `json:"id"`
+	ProductGroupId string                                   `json:"product_group_id"`
+	Tax            string                                   `json:"tax"`
+	Account        string                                   `json:"account"`
+	CreatedAt      CreateProductGroupReturnResultsCreatedAt `json:"created_at"`
+	UpdatedAt      CreateProductGroupReturnResultsUpdatedAt `json:"updated_at"`
+	Images         CreateProductGroupReturnResultsImages    `json:"images"`
+	Name           string                                   `json:"name"`
+	CustomIds      interface{}                              `json:"custom_ids"`
+	Color          string                                   `json:"color"`
+	Active         bool                                     `json:"active"`
+	Deleted        bool                                     `json:"deleted"`
+	Metadata       interface{}                              `json:"metadata"`
+}
+
+type CreateProductGroupReturnResultsCreatedAt struct {
+	Iso  string `json:"iso"`
+	Unix int    `json:"unix"`
+}
+
+type CreateProductGroupReturnResultsUpdatedAt struct {
+	Iso  string `json:"iso"`
+	Unix int    `json:"unix"`
+}
+
+type CreateProductGroupReturnResultsImages struct {
+	First    string `json:"1x"`
+	Second   string `json:"2x"`
+	Third    string `json:"3x"`
+	Avatar   string `json:"avatar"`
+	Original string `json:"original"`
 }
 
 // ProductGroups is to check all product groups
@@ -98,6 +166,54 @@ func ProductGroups(accountId, token string) (ProductGroupsReturn, error) {
 	err = json.NewDecoder(response.Body).Decode(&decode)
 	if err != nil {
 		return ProductGroupsReturn{}, err
+	}
+
+	// Return data
+	return decode, nil
+
+}
+
+// CreateProductGroup is to create a new product group
+func CreateProductGroup(data CreateProductGroupBody, accountId, token string) (CreateProductGroupReturn, error) {
+
+	// Set url
+	url := "https://api.tillhub.com/api/v0/product_groups/" + accountId
+
+	// Define client
+	client := &http.Client{}
+
+	// Prepare body data
+	convert, err := json.Marshal(data)
+	if err != nil {
+		return CreateProductGroupReturn{}, err
+	}
+
+	// Define request
+	request, err := http.NewRequest("POST", url, bytes.NewBuffer(convert))
+	if err != nil {
+		return CreateProductGroupReturn{}, err
+	}
+
+	// Set header
+	request.Header.Set("Accept", "application/json, text/plain, */*")
+	request.Header.Set("Content-Type", "application/json;charset=UTF-8")
+	request.Header.Set("Authorization", "Bearer "+token)
+
+	// Define response & send request
+	response, err := client.Do(request)
+	if err != nil {
+		return CreateProductGroupReturn{}, err
+	}
+
+	// Close body after function ends
+	defer response.Body.Close()
+
+	// Decode json response
+	var decode CreateProductGroupReturn
+
+	err = json.NewDecoder(response.Body).Decode(&decode)
+	if err != nil {
+		return CreateProductGroupReturn{}, err
 	}
 
 	// Return data
