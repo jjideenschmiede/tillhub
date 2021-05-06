@@ -618,7 +618,7 @@ func ReadProducts(userId, token string) (ReadProductsReturn, error) {
 
 	// Set header
 	request.Header.Set("Content-Type", "application/json")
-	request.Header.Set("Authorization", token)
+	request.Header.Set("Authorization", "Bearer "+token)
 
 	// Define response & send request
 	response, err := client.Do(request)
@@ -666,7 +666,7 @@ func CreateProduct(data CreateProductBody, userId, token string) (CreateProductR
 	// Set header
 	request.Header.Set("Accept", "application/json, text/plain, */*")
 	request.Header.Set("Content-Type", "application/json;charset=UTF-8")
-	request.Header.Set("Authorization", token)
+	request.Header.Set("Authorization", "Bearer "+token)
 
 	// Define response & send request
 	response, err := client.Do(request)
@@ -714,7 +714,7 @@ func UpdateProduct(data CreateProductBody, productId, userId, token string) (Upd
 	// Set header
 	request.Header.Set("Accept", "application/json, text/plain, */*")
 	request.Header.Set("Content-Type", "application/json;charset=UTF-8")
-	request.Header.Set("Authorization", token)
+	request.Header.Set("Authorization", "Bearer "+token)
 
 	// Set response and send request
 	response, err := client.Do(request)
@@ -756,7 +756,7 @@ func DeleteProduct(productId, userId, token string) (DeleteProductReturn, error)
 	// Set header
 	request.Header.Set("Accept", "application/json, text/plain, */*")
 	request.Header.Set("Content-Type", "application/json;charset=UTF-8")
-	request.Header.Set("Authorization", token)
+	request.Header.Set("Authorization", "Bearer "+token)
 
 	// Set response and send request
 	response, err := client.Do(request)
