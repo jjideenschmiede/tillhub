@@ -261,6 +261,24 @@ if err != nil {
 fmt.Println(delete)
 ```
 
+### Update quantity
+
+If you want to update the quantity, you can do it with this function. [Here](https://api.tillhub.com/api/docs#tag/products/paths/~1api~1v1~1products~1{clientAccountID}~1{productID}~1stock~1book/post) you can see the call in tillhub documentation.
+
+```go
+// Define stock body
+body := StockBody{220, "locationId"}
+
+// Update stock
+stock, err := Stock(body, "accountId", "productId", "token")
+if err != nil {
+    fmt.Println(err)
+}
+
+// Print stock
+fmt.Println(stock.Results[0].Stock.Qty)
+```
+
 ### Read all product groups
 
 If you want to read out all product groups, you can do it with this function. Both simple and variable products are returned. [Here](https://api.tillhub.com/api/docs#tag/product_groups/paths/~1api~1v0~1product_groups~1{clientAccountID}/get) you can see the call in tillhub documentation.
