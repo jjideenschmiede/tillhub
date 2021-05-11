@@ -84,7 +84,7 @@ type ReadProductsResults struct {
 	InsertId                   interface{}                      `json:"insert_id"`
 	ProductGroup               interface{}                      `json:"product_group"`
 	Supplier                   ReadProductsResultsSupplier      `json:"supplier"`
-	Attributes                 interface{}                      `json:"attributes"`
+	Attributes                 map[string]interface{}           `json:"attributes"`
 	Barcode                    interface{}                      `json:"barcode"`
 	Prices                     ReadProductsResultsPrices        `json:"prices"`
 	Sku                        string                           `json:"sku"`
@@ -135,12 +135,12 @@ type ReadProductsResults struct {
 }
 
 type ReadProductsResultsChildren struct {
-	Id         string      `json:"id"`
-	Name       string      `json:"name"`
-	CustomId   string      `json:"custom_id"`
-	Attributes interface{} `json:"attributes"`
-	Locations  interface{} `json:"locations"`
-	Images     interface{} `json:"images"`
+	Id         string                 `json:"id"`
+	Name       string                 `json:"name"`
+	CustomId   string                 `json:"custom_id"`
+	Attributes map[string]interface{} `json:"attributes"`
+	Locations  interface{}            `json:"locations"`
+	Images     interface{}            `json:"images"`
 }
 
 type ReadProductsResultsCreatedAt struct {
@@ -207,11 +207,12 @@ type ReadProductsResultsConfigurationPricing struct {
 type CreateProductBody struct {
 	Active              bool                           `json:"active"`
 	Type                string                         `json:"type"`
+	Parent              string                         `json:"parent"`
 	Name                string                         `json:"name"`
 	Account             string                         `json:"account"`
 	Tax                 string                         `json:"tax"`
 	CustomId            string                         `json:"custom_id"`
-	Attributes          CreateProductBodyAttributes    `json:"attributes"`
+	Attributes          map[string]interface{}         `json:"attributes"`
 	Codes               []CreateProductBodyCodes       `json:"codes"`
 	Barcode             interface{}                    `json:"barcode"`
 	ProductGroup        interface{}                    `json:"product_group"`
@@ -239,9 +240,6 @@ type CreateProductBody struct {
 	Configuration       CreateProductBodyConfiguration `json:"configuration"`
 	Online              interface{}                    `json:"online"`
 	ShippingRequired    interface{}                    `json:"shipping_required"`
-}
-
-type CreateProductBodyAttributes struct {
 }
 
 type CreateProductBodyCodes struct {
@@ -348,7 +346,7 @@ type CreateProductReturnResults struct {
 	InsertId                   interface{}                             `json:"insert_id"`
 	ProductGroup               interface{}                             `json:"product_group"`
 	Supplier                   CreateProductReturnResultsSupplier      `json:"supplier"`
-	Attributes                 interface{}                             `json:"attributes"`
+	Attributes                 map[string]interface{}                  `json:"attributes"`
 	Barcode                    interface{}                             `json:"barcode"`
 	Prices                     CreateProductReturnResultsPrices        `json:"prices"`
 	Sku                        interface{}                             `json:"sku"`
@@ -498,7 +496,7 @@ type UpdateProductReturnResults struct {
 	Revisions                  interface{}                             `json:"revisions"`
 	Stockable                  bool                                    `json:"stockable"`
 	VatClass                   interface{}                             `json:"vat_class"`
-	Attributes                 interface{}                             `json:"attributes"`
+	Attributes                 map[string]interface{}                  `json:"attributes"`
 	Categories                 interface{}                             `json:"categories"`
 	CreatedAt                  UpdateProductReturnResultsCreatedAt     `json:"created_at"`
 	Delegatable                bool                                    `json:"delegatable"`
