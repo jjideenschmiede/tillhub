@@ -83,6 +83,7 @@ If you want to create a product, you can do this using the following function ca
 body := tillhub.CreateProductBody{
 	true,
     "product",
+    "parent",
     "J&J Testprodukt",
     "UUIDofTheRevenueAccountObjectInTillhub",
     "UUIDofTheTAXAccountObjectInTillhub",
@@ -168,7 +169,8 @@ If you want to update a product, then you can do with the following function. So
 // Create product data
 body := tillhub.CreateProductBody{
 	true,
-    "product",
+    "product",  
+    "parent",
     "J&J Testprodukt",
     "UUIDofTheRevenueAccountObjectInTillhub",
     "UUIDofTheTAXAccountObjectInTillhub",
