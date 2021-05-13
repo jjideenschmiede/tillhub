@@ -207,7 +207,7 @@ type ReadProductsResultsConfigurationPricing struct {
 type CreateProductBody struct {
 	Active              bool                           `json:"active"`
 	Type                string                         `json:"type"`
-	Parent              string                         `json:"parent"`
+	Parent              string                         `json:"parent,omitempty"`
 	Name                string                         `json:"name"`
 	Account             string                         `json:"account"`
 	Tax                 string                         `json:"tax"`
