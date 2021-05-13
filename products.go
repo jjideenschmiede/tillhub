@@ -246,16 +246,16 @@ type CreateProductBodyCodes struct {
 }
 
 type CreateProductBodyImages struct {
-	First        string `json:"1x"`
-	Second       string `json:"2x"`
-	Third        string `json:"3x"`
-	LiaFirst     string `json:"lia_1x"`
-	LiaSecond    string `json:"lia_2x"`
-	LiaThird     string `json:"lia_3x"`
-	Original     string `json:"original"`
-	SquareFirst  string `json:"square_1x"`
-	SquareSecond string `json:"square_2x"`
-	SquareThird  string `json:"square_3x"`
+	First        string `json:"1x,omitempty"`
+	Second       string `json:"2x,omitempty"`
+	Third        string `json:"3x,omitempty"`
+	LiaFirst     string `json:"lia_1x,omitempty"`
+	LiaSecond    string `json:"lia_2x,omitempty"`
+	LiaThird     string `json:"lia_3x,omitempty"`
+	Original     string `json:"original,omitempty"`
+	SquareFirst  string `json:"square_1x,omitempty"`
+	SquareSecond string `json:"square_2x,omitempty"`
+	SquareThird  string `json:"square_3x,omitempty"`
 }
 
 type CreateProductBodyPrices struct {
