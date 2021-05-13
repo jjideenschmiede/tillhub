@@ -269,16 +269,31 @@ If you want to update the quantity, you can do it with this function. [Here](htt
 
 ```go
 // Define stock body
-body := StockBody{220, "locationId"}
+body := tillhub.CreateStockBody{220, "locationId"}
 
 // Update stock
-stock, err := Stock(body, "accountId", "productId", "token")
+stock, err := tillhub.CreateStock(body, "accountId", "productId", "token")
 if err != nil {
     fmt.Println(err)
 }
 
 // Print stock
 fmt.Println(stock.Results[0].Stock.Qty)
+```
+
+### Delete stock
+
+If you want to delete the stock of a product, you can do it with this function. [Here](https://api.tillhub.com/api/docs#tag/stock/paths/~1api~1v0~1stock~1{clientAccountID}~1{stockID}/delete) you can see the call in tillhub documentation.
+
+```go
+// Delete stock
+stock, err := tillhub.DeleteStock("stockId", "accountId", "token")
+if err != nil {
+    fmt.Println(err)
+}
+
+// Print stock
+fmt.Println(stock)
 ```
 
 ### Read all product groups
