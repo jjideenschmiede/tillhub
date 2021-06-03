@@ -281,6 +281,22 @@ if err != nil {
 fmt.Println(stock.Results[0].Stock.Qty)
 ```
 
+### Update stock
+
+```go
+// Define stock body
+body := tillhub.UpdateStockBody{12}
+
+// Update stock
+stock, err := tillhub.UpdateStock(body, "stockId", "accountId", "token")
+if err != nil {
+    fmt.Println(err)
+}
+
+// Print stock
+fmt.Println(stock.Results[0].Qty)
+```
+
 ### Delete stock
 
 If you want to delete the stock of a product, you can do it with this function. [Here](https://api.tillhub.com/api/docs#tag/stock/paths/~1api~1v0~1stock~1{clientAccountID}~1{stockID}/delete) you can see the call in tillhub documentation.
