@@ -190,6 +190,49 @@ type CreateStockReturnResultsStock struct {
 	Location     string      `json:"location"`
 }
 
+// UpdateStockBody is to send body data
+type UpdateStockBody struct {
+	Qty int `json:"qty"`
+}
+
+// UpdateStockReturn is to decode json data
+type UpdateStockReturn struct {
+	Status  int                        `json:"status"`
+	Msg     string                     `json:"msg"`
+	Request UpdateStockReturnRequest   `json:"request"`
+	Count   int                        `json:"count"`
+	Results []UpdateStockReturnResults `json:"results"`
+}
+
+type UpdateStockReturnRequest struct {
+	Host string `json:"host"`
+	Id   string `json:"id"`
+}
+
+type UpdateStockReturnResults struct {
+	Id           string                            `json:"id"`
+	CreatedAt    UpdateStockReturnResultsCreatedAt `json:"created_at"`
+	UpdatedAt    UpdateStockReturnResultsUpdatedAt `json:"updated_at"`
+	Article      interface{}                       `json:"article"`
+	Product      string                            `json:"product"`
+	Qty          int                               `json:"qty"`
+	Branch       interface{}                       `json:"branch"`
+	Status       string                            `json:"status"`
+	Metadata     interface{}                       `json:"metadata"`
+	LocationType interface{}
+	Location     string `json:"location"`
+}
+
+type UpdateStockReturnResultsCreatedAt struct {
+	Iso  string `json:"iso"`
+	Unix int    `json:"unix"`
+}
+
+type UpdateStockReturnResultsUpdatedAt struct {
+	Iso  string `json:"iso"`
+	Unix int    `json:"unix"`
+}
+
 // DeleteStockReturn is to decode json data
 type DeleteStockReturn struct {
 	Status  int                      `json:"status"`
@@ -243,6 +286,54 @@ func CreateStock(data CreateStockBody, productId, accountId, token string) (Crea
 	err = json.NewDecoder(response.Body).Decode(&decode)
 	if err != nil {
 		return CreateStockReturn{}, err
+	}
+
+	// Return data
+	return decode, nil
+
+}
+
+// UpdateStock is to clear the stock
+func UpdateStock(data UpdateStockBody, stockId, accountId, token string) (UpdateStockReturn, error) {
+
+	// Set url
+	url := "https://api.tillhub.com/api/v0/stock/" + accountId + "/" + stockId
+
+	// Define client
+	client := &http.Client{}
+
+	// Prepare body
+	convert, err := json.Marshal(data)
+	if err != nil {
+		return UpdateStockReturn{}, err
+	}
+
+	// Set request
+	request, err := http.NewRequest("PUT", url, bytes.NewBuffer(convert))
+	if err != nil {
+		return UpdateStockReturn{}, err
+	}
+
+	// Set header
+	request.Header.Set("Accept", "application/json, text/plain, */*")
+	request.Header.Set("Content-Type", "application/json;charset=UTF-8")
+	request.Header.Set("Authorization", "Bearer "+token)
+
+	// Define response & send request
+	response, err := client.Do(request)
+	if err != nil {
+		return UpdateStockReturn{}, err
+	}
+
+	// Close body after function ends
+	defer response.Body.Close()
+
+	// Decode json return
+	var decode UpdateStockReturn
+
+	err = json.NewDecoder(response.Body).Decode(&decode)
+	if err != nil {
+		return UpdateStockReturn{}, err
 	}
 
 	// Return data
